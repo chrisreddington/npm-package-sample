@@ -1,0 +1,85 @@
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
+
+name: Publish Node.js Package to GitHub Package Registry and Azure Artifacts
+
+on:
+  push:
+    branches:
+      - master
+
+# CONFIGURATION
+#
+# 1. Set the environment variables for your Node Version, GitHub Package Registry URL and Azure Artifacts Feed URL as appropriate.
+#
+# 2. Ensure that your csproj file is configured correctly as outlined in the documentation below:
+#    https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/configuring-dotnet-cli-for-use-with-github-packages#publishing-a-package
+#
+# 3. Notice that in the actions/setup-node action that there is a NODE_AUTH_TOKEN environment
+#    For Azure Artifacts, you will need to add a repository secret AZURE_ARTIFACTS_TOKEN
+#    For GitHub Package Registry, this secret is injected via GitHub Actions
+#    For NPM, you will need to add a repository secret NPM_TOKEN
+#
+#    You can find more information on that in the documentation below.
+#    https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/using-github-packages-with-github-actions#authenticating-to-package-registries-on-github
+
+env:
+  AZURE_ARTIFACTS_REGISTRY_URL: https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/                    # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
+  NODE_VERSION: '12'                                                                           # set this to the dot net version to use
+  GITHUB_PACKAGE_REGISTRY_URL: https://npm.pkg.github.com/chrisreddington/                        # set this to the registry url for your GitHub package registry
+  NPM_PACKAGE_REGISTRY_URL: https://registry.npmjs.org/                                        # set this to the registry url for your GitHub package registry
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm ci
+      - run: npm test
+      
+  publish-azure-artifacts:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: ${{ env.AZURE_ARTIFACTS_REGISTRY_URL }}
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_PAT }}
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: ${{ env.NPM_PACKAGE_REGISTRY_URL }}
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+# For more samples to get started with GitHub Action workflows to deploy to Azure, refer to https://github.com/Azure/actions-workflow-samples
