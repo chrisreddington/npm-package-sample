@@ -66,14 +66,14 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
           # Defaults to the user or organization that owns the workflow file
           scope: '@chrisreddington'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm config get registry
-      - run: npm install
-      - run: npm publish
+      - run: npm ci
+      - run: npm publish -- registry ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
