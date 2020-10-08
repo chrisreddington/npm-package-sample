@@ -62,12 +62,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      # Setup .npmrc file to publish to GitHub Packages
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
+          # Defaults to the user or organization that owns the workflow file
           scope: '@chrisreddington'
-      - run: npm ci
+      - run: npm install
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
