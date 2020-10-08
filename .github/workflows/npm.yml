@@ -27,10 +27,10 @@ on:
 #    https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/using-github-packages-with-github-actions#authenticating-to-package-registries-on-github
 
 env:
-  AZURE_ARTIFACTS_REGISTRY_URL: https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/                    # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
+  AZURE_ARTIFACTS_REGISTRY_URL: 'https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/'                    # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
   NODE_VERSION: '12'                                                                           # set this to the dot net version to use
-  GITHUB_PACKAGE_REGISTRY_URL: https://npm.pkg.github.com/chrisreddington/                        # set this to the registry url for your GitHub package registry
-  NPM_PACKAGE_REGISTRY_URL: https://registry.npmjs.org/                                        # set this to the registry url for your GitHub package registry
+  GITHUB_PACKAGE_REGISTRY_URL: 'https://npm.pkg.github.com/chrisreddington/'                   # set this to the registry url for your GitHub package registry
+  NPM_PACKAGE_REGISTRY_URL: 'https://registry.npmjs.org/'                                      # set this to the registry url for your GitHub package registry
  
 jobs:
   build:
