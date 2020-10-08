@@ -30,7 +30,7 @@ env:
   AZURE_ARTIFACTS_REGISTRY_URL: 'https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/'                    # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
   NODE_VERSION: '12'                                                                           # set this to the dot net version to use
   GITHUB_PACKAGE_REGISTRY_URL: 'https://npm.pkg.github.com'                   # set this to the registry url for your GitHub package registry
-  NPM_PACKAGE_REGISTRY_URL: 'https://registry.npmjs.org/'                                      # set this to the registry url for your GitHub package registry
+  NPM_PACKAGE_REGISTRY_URL_VAR: 'https://registry.npmjs.org/'                                      # set this to the registry url for your GitHub package registry
  
 jobs:
   build:
@@ -70,7 +70,7 @@ jobs:
           # Defaults to the user or organization that owns the workflow file
           scope: '@chrisreddington'
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm install
       - run: npm publish
         env:
@@ -84,7 +84,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: ${{ env.NPM_PACKAGE_REGISTRY_URL }}
+          registry-url: ${{ env.NPM_PACKAGE_REGISTRY_URL_VAR }}
       - run: npm ci
       - run: npm publish
         env:
