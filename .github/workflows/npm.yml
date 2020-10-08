@@ -56,7 +56,7 @@ jobs:
       - run: npm ci
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_PAT }}
+          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
 
   publish-gpr:
     needs: build
@@ -70,8 +70,6 @@ jobs:
           registry-url: ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
           # Defaults to the user or organization that owns the workflow file
           scope: '@chrisreddington/npm-package-sample'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm ci
       - run: npm publish --registry ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
         env:
