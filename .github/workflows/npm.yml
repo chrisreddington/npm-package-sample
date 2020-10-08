@@ -53,7 +53,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
-      - run: echo "${{secrets.AZURE_ARTIFACTS_BASE64_PAT}}" > ~/.npmrc
+      - run: echo "${{secrets.AZURE_ARTIFACTS_BASE64_PAT}}" > ~/.npmrc        
+      - run: npm config set @chrisreddington:registry ${{ env.AZURE_ARTIFACTS_FEED_URL }}
       - run: npm ci
       - run: npm publish
         env:
