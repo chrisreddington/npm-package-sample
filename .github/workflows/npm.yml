@@ -69,12 +69,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
           # Defaults to the user or organization that owns the workflow file
-          scope: '@chrisreddington'
+          scope: '@chrisreddington/npm-package-sample'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm config get registry
       - run: npm ci
-      - run: npm publish --registry ${{ env.GITHUB_PACKAGE_REGISTRY_URL }} --scope "@chrisreddington"
+      - run: npm publish --registry ${{ env.GITHUB_PACKAGE_REGISTRY_URL }} --scope "@chrisreddington/npm-package-sample"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
