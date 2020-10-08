@@ -71,6 +71,7 @@ jobs:
           scope: '@chrisreddington'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm config get registry
       - run: npm install
       - run: npm publish
         env:
