@@ -55,7 +55,7 @@ jobs:
           registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
           scope: '@chrisreddington/npm-package-sample'
       - run: npm ci
-      - run: npm publish
+      - run: npm publish --registry ${{ env.AZURE_ARTIFACTS_FEED_URL }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
 
