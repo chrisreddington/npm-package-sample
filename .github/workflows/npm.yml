@@ -28,10 +28,10 @@ on:
 #    https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/using-github-packages-with-github-actions#authenticating-to-package-registries-on-github
 
 env:
-  AZURE_ARTIFACTS_REGISTRY_URL: 'https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/'                    # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
+  AZURE_ARTIFACTS_FEED_URL: 'https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/'                    # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
   NODE_VERSION: '12'                                                                           # set this to the dot net version to use
   GITHUB_PACKAGE_REGISTRY_URL: 'https://npm.pkg.github.com'                   # set this to the registry url for your GitHub package registry
-  NPM_PACKAGE_REGISTRY_URL_VAR: 'https://registry.npmjs.org/'                                      # set this to the registry url for your GitHub package registry
+  NPM_PACKAGE_REGISTRY_URL: 'https://registry.npmjs.org/'                                      # set this to the registry url for your GitHub package registry
  
 jobs:
   build:
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: ${{ env.AZURE_ARTIFACTS_REGISTRY_URL }}
+          registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
       - run: npm ci
       - run: npm publish
         env:
@@ -72,9 +72,8 @@ jobs:
           scope: '@chrisreddington/npm-package-sample'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm config get registry
       - run: npm ci
-      - run: npm publish
+      - run: npm publish --registry ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
@@ -86,7 +85,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: ${{ env.NPM_PACKAGE_REGISTRY_URL_VAR }}
+          registry-url: ${{ env.NPM_PACKAGE_REGISTRY_URL }}
       - run: npm ci
       - run: npm publish
         env:
