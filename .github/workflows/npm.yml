@@ -69,6 +69,8 @@ jobs:
           registry-url: ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
           # Defaults to the user or organization that owns the workflow file
           scope: '@chrisreddington'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_PAT }}
       - run: npm install
       - run: npm publish
         env:
