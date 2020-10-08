@@ -74,7 +74,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: npm config get registry
       - run: npm ci
-      - run: npm publish --registry ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
+      - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
