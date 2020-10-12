@@ -55,14 +55,21 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
           always-auth: true
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
+      
+      - name: Replace with appropriate .npmrc
+        run: |
+          echo "; begin auth token
+          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:username=theatreers
+          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:_password=[BASE64_ENCODED_PERSONAL_ACCESS_TOKEN]
+          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:email=npm requires email to be set but doesn't use the value
+          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:username=theatreers
+          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:_password=[BASE64_ENCODED_PERSONAL_ACCESS_TOKEN]
+          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:email=npm requires email to be set but doesn't use the value
+          ; end auth token" > ~/.npmrc
       - run: npm ci
       - run: ls -la /home/runner/work/_temp
       - run: cat /home/runner/work/_temp/.npmrc
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
 
   publish-gpr:
     needs: build
