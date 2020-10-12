@@ -32,6 +32,7 @@ env:
   NODE_VERSION: '12'                                                                           # set this to the dot net version to use
   GITHUB_PACKAGE_REGISTRY_URL: 'https://npm.pkg.github.com'                   # set this to the registry url for your GitHub package registry
   NPM_PACKAGE_REGISTRY_URL: 'https://registry.npmjs.org/'                                      # set this to the registry url for your GitHub package registry
+  WORKING_DIRECTORY: './npm-package-sample'
  
 jobs:
   build:
@@ -55,10 +56,14 @@ jobs:
           registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
           always-auth: true
       - run: rm .npmrc
+        working-directory: ${{ env.WORKING_DIRECTORY }}
       - run: echo "${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}" > ~/.npmrc
+        working-directory: ${{ env.WORKING_DIRECTORY }}
       - run: npm config set @chrisreddington:registry ${{ env.AZURE_ARTIFACTS_FEED_URL }}
       - run: npm ci
+        working-directory: ${{ env.WORKING_DIRECTORY }}
       - run: npm publish --registry ${{ env.AZURE_ARTIFACTS_FEED_URL }}
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
   publish-gpr:
     needs: build
