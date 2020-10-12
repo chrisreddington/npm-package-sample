@@ -55,6 +55,8 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
           always-auth: true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
       - run: npm ci
       - run: ls -la /home/runner/work/_temp
       - run: cat /home/runner/work/_temp/.npmrc
