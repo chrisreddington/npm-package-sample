@@ -34,6 +34,7 @@ env:
   AZURE_ARTIFACTS_FEED_USERNAME: 'theatreers'                                                                                         # set this to the username found in the azure artifacts example
   NODE_VERSION: '12'                                                                                                                  # set this to the dot net version to use
   GITHUB_PACKAGE_REGISTRY_URL: 'https://npm.pkg.github.com'                                                                           # set this to the registry url for your GitHub package registry
+  GITHUB_PACKAGE_REGISTRY_SCOPE: '@chrisreddington/npm-package-sample'                                                                # set this to the account/organisation name, and repo, e.g. @account/repo or @organisation/repo
   NPM_PACKAGE_REGISTRY_URL: 'https://registry.npmjs.org/'                                                                             # set this to the registry url for your GitHub package registry
   WORKING_DIRECTORY: './npm-package-sample'
  
@@ -85,7 +86,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
           # Defaults to the user or organization that owns the workflow file
-          scope: '@chrisreddington/npm-package-sample'
+          scope: ${{ env.GITHUB_PACKAGE_REGISTRY_SCOPE }}
       - run: npm ci
       - run: npm publish --registry ${{ env.GITHUB_PACKAGE_REGISTRY_URL }}
         env:
