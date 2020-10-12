@@ -56,6 +56,7 @@ jobs:
           registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
           always-auth: true
       - run: npm ci
+      - run: ls -la
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
