@@ -28,6 +28,7 @@ on:
 #    https://docs.github.com/en/free-pro-team@latest/packages/using-github-packages-with-your-projects-ecosystem/using-github-packages-with-github-actions#authenticating-to-package-registries-on-github
 
 env:
+  AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL: '//pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/'                    # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
   AZURE_ARTIFACTS_FEED_URL: 'https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/'                    # set this to the registry url for your Azure Artifacts Feed, you will find this in Azure DevOps
   NODE_VERSION: '12'                                                                           # set this to the dot net version to use
   GITHUB_PACKAGE_REGISTRY_URL: 'https://npm.pkg.github.com'                   # set this to the registry url for your GitHub package registry
@@ -58,19 +59,17 @@ jobs:
       
       - name: Replace with appropriate .npmrc
         run: |
-          echo "registry=https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/                         
+          echo "registry=${{ env.AZURE_ARTIFACTS_FEED_URL }}                       
           always-auth=true
           ; begin auth token
-          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:username=theatreers
-          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:_password=${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
-          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:email=npm requires email to be set but doesn't use the value
-          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:username=theatreers
-          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:_password=${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
-          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:email=npm requires email to be set but doesn't use the value
+          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:username=theatreers
+          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:_password=${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
+          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:email=npm requires email to be set but doesn't use the value
+          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:username=theatreers
+          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:_password=${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
+          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:email=npm requires email to be set but doesn't use the value
           ; end auth token" > /home/runner/work/_temp/.npmrc
       - run: npm ci
-      - run: ls -la /home/runner/work/_temp
-      - run: cat /home/runner/work/_temp/.npmrc
       - run: npm publish
 
   publish-gpr:
