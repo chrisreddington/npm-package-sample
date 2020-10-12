@@ -58,14 +58,16 @@ jobs:
       
       - name: Replace with appropriate .npmrc
         run: |
-          echo "; begin auth token
+          echo "registry=https://pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/                         
+          always-auth=true
+          ; begin auth token
           //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:username=theatreers
-          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:_password=[BASE64_ENCODED_PERSONAL_ACCESS_TOKEN]
+          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:_password=${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
           //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/registry/:email=npm requires email to be set but doesn't use the value
           //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:username=theatreers
-          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:_password=[BASE64_ENCODED_PERSONAL_ACCESS_TOKEN]
+          //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:_password=${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
           //pkgs.dev.azure.com/theatreers/Theatreers/_packaging/YugiohCards.Test/npm/:email=npm requires email to be set but doesn't use the value
-          ; end auth token" > ~/.npmrc
+          ; end auth token" > /home/runner/work/_temp/.npmrc
       - run: npm ci
       - run: ls -la /home/runner/work/_temp
       - run: cat /home/runner/work/_temp/.npmrc
