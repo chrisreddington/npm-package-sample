@@ -64,10 +64,10 @@ jobs:
           echo "registry=${{ env.AZURE_ARTIFACTS_FEED_URL }}                       
           always-auth=true
           ; begin auth token
-          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:username=${{ secrets.AZURE_ARTIFACTS_FEED_USERNAME }}
+          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:username=${{ env.AZURE_ARTIFACTS_FEED_USERNAME }}
           ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:_password=${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
           ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL }}:email=npm requires email to be set but doesn't use the value
-          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL_OR_REGISTRY }}:username=${{ secrets.AZURE_ARTIFACTS_FEED_USERNAME }}
+          ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL_OR_REGISTRY }}:username=${{ env.AZURE_ARTIFACTS_FEED_USERNAME }}
           ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL_OR_REGISTRY }}:_password=${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
           ${{ env.AZURE_ARTIFACTS_FEED_URL_NO_PROTOCOL_OR_REGISTRY }}:email=npm requires email to be set but doesn't use the value
           ; end auth token" > /home/runner/work/_temp/.npmrc
