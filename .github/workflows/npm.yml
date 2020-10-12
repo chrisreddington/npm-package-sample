@@ -55,9 +55,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
           always-auth: true
-      - run: npm config set @chrisreddington:registry ${{ env.AZURE_ARTIFACTS_FEED_URL }}
       - run: npm ci
-      - run: npm publish --registry ${{ env.AZURE_ARTIFACTS_FEED_URL }}
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.AZURE_ARTIFACTS_BASE64_PAT }}
 
   publish-gpr:
     needs: build
